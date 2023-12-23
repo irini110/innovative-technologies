@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+		<script src="../aframe/aframe.min.js"></script>
+		<script src="../arjs/aframe-ar.js"></script>
+	</head>
+	<body>
+		<a-scene embedded arjs="debug: false">
+			<a-assets> </a-assets>
+			<a-marker preset="hiro">
+				<a-box color="blue"></a-box>
+			</a-marker>
+			
+			</a-marker>
+			<a-marker type="pattern" url="../assets/pattern-ab.patt">
+				<a-box color="pink"></a-box>
+				</a-marker>
+				<a-marker preset="kanji">
+				<a-box color="yellow"></a-box>
+			<a-entity camera></a-entity>
+		</a-scene>
+	</body>
+</html>

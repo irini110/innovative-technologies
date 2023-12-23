@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<script src="../aframe/aframe.min.js"></script>
+		<script src="../arjs/aframe-ar.js"></script>
+		<script src="planet.js"></script>
+	</head>
+	<body>
+		<a-scene embedded arjs>
+			<a-marker type="pattern" url="../assets/pattern-nasa.patt">
+				<a-entity scale="1 0.2 1.5 " rotation="-30 50 0">
+					<a-sky
+						src="Andromeda_Galaxy_(with_h-alpha).jpg"
+						radius="6000"
+					></a-sky>
+
+					<a-entity
+						geometry="primitive: sphere; radius: 5,35"
+						material="src:merkuriya.jpg"
+						planet="dist: 20e3; mass: 2e55; T: 150; name:Merkuriy "
+					></a-entity>
+
+					<a-entity
+						geometry="primitive: sphere; radius: 6,5900"
+						material="src:veneri.jpg"
+						planet="dist: 40e9; mass: 5,336e; T: 230; name: Venus"
+					></a-entity>
+
+					<a-entity
+						geometry="primitive: sphere; radius: 7.5015"
+						material="src:zemlya.jpg "
+						planet="dist: 203.59598e7; mass: 6.85e00; T: 370; name: Earth"
+					></a-entity>
+
+					<a-entity
+						geometry="primitive: sphere; radius: 7.99e145"
+						material="src: 2k_mars.jpg"
+						planet="dist: 289.364972; mass: 8.41e23; T:756.398; name: Mars"
+					></a-entity>
+
+					<a-entity
+						geometry="primitive: sphere; radius: 8.9947e"
+						material="src: yupitera.jpg "
+						planet="dist: 320.74510; mass: 16.0652e87; T:860.955; name: Yupiter"
+					></a-entity>
+
+					<a-entity
+						geometry="primitive: sphere; radius: 12.47e"
+						material="src: saturna.jpg "
+						planet="dist: 421.65e; mass: 25.321e846; T:939.166e; name: Saturn"
+					></a-entity>
+
+					<a-entity
+						geometry="primitive: sphere; radius: 10.225e"
+						material="src: uran.png "
+						planet="dist: 531.65e; mass: 12.3359; T:678.21e; name: Uran"
+					></a-entity>
+
+					<a-entity
+						geometry="primitive: sphere; radius: 17.2e987"
+						material="src: neptun.jpg "
+						planet="dist: 765.65e; mass: 15.397e55; T:800.21e; name: Neptun"
+					></a-entity>
+				</a-entity>
+			</a-marker>
+			<a-entity camera></a-entity>
+			<a-entity main></a-entity>
+		</a-scene>
+	</body>
+</html>
