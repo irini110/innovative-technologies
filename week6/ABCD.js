@@ -1,73 +1,65 @@
-let markerVisible = {
-	A: false,
-	B: false,
-	C: false,
-	D: false,
-	F: false,
-	G: false,
-};
+let markerVisible = { A: false, B: false, C: false, D: false };
 
-AFRAME.registerComponent("registerevents", {
-	init: function () {
-		var marker = this.el;
-		marker.addEventListener("markerFound", function () {
-			console.log("Знайдено ", marker.id);
-			markerVisible[marker.id] = true;
-		});
-		marker.addEventListener("markerLost", function () {
-			console.log("Втрачено ", marker.id);
-			markerVisible[marker.id] = false;
-		});
-	},
+AFRAME.registerComponent('registerevents', {
+  init: function () {
+    let marker = this.el;
+    marker.addEventListener('markerFound', function () {
+      markerVisible[marker.id] = true;
+    });
+    marker.addEventListener('markerLost', function () {
+      markerVisible[marker.id] = false;
+    });
+  }
 });
 
-AFRAME.registerComponent("run", {
-	init: function () {
-		this.AB = document.getElementById("AB").object3D;
-		this.BC = document.getElementById("BC").object3D;
-		this.CD = document.getElementById("CD").object3D;
-		this.DF = document.getElementById("DF").object3D;
-		this.FG = document.getElementById("FG").object3D;
-		this.GA = document.getElementById("GA").object3D;
-		this.A = document.getElementById("A").object3D;
-		this.B = document.getElementById("B").object3D;
-		this.C = document.getElementById("C").object3D;
-		this.D = document.getElementById("D").object3D;
-		this.F = document.getElementById("F").object3D;
-		this.G = document.getElementById("G").object3D;
-		this.vecA = new THREE.Vector3();
-		this.vecB = new THREE.Vector3();
-		this.vecC = new THREE.Vector3();
-		this.vecD = new THREE.Vector3();
-		this.vecF = new THREE.Vector3();
-		this.vecG = new THREE.Vector3();
-	},
-	tick: function () {
-		this.A.getWorldPosition(this.vecA);
-		this.B.getWorldPosition(this.vecB);
-		this.C.getWorldPosition(this.vecC);
-		this.D.getWorldPosition(this.vecD);
-		this.F.getWorldPosition(this.vecF);
-		this.G.getWorldPosition(this.vecG);
+AFRAME.registerComponent('run', {
+  init: function () {
+    this.A = document.querySelector("#A").object3D;
+    this.B = document.querySelector("#B").object3D;
+    this.C = document.querySelector("#C").object3D;
+    this.D = document.querySelector("#D").object3D;
+    
+    this.pA = new THREE.Vector3();
+    this.pB = new THREE.Vector3();
+    this.pC = new THREE.Vector3();
+    this.pD = new THREE.Vector3();
 
-		if (markerVisible["A"] && markerVisible["B"]) {
-			let distance = this.vecA.distanceTo(this.vecB);
-			console.log("AB = ", distance);
-			this.AB.visible = true;
-			this.AB.scale.set(1, distance, 1);
-			this.AB.position.set(0, 0, 0);
-			this.AB.lookAt(this.vecB);
-		}
-		if (markerVisible["B"] && markerVisible["C"]) this.BC.visible = true;
-		if (markerVisible["C"] && markerVisible["D"]) this.CD.visible = true;
-		if (markerVisible["D"] && markerVisible["F"]) this.DF.visible = true;
-		if (markerVisible["F"] && markerVisible["G"]) this.FG.visible = true;
-		if (markerVisible["G"] && markerVisible["A"]) this.GA.visible = true;
-		if (!markerVisible["A"]) this.AB.visible = this.GA.visible = false;
-		if (!markerVisible["B"]) this.AB.visible = this.BC.visible = false;
-		if (!markerVisible["C"]) this.BC.visible = this.CD.visible = false;
-		if (!markerVisible["D"]) this.CD.visible = this.DF.visible = false;
-		if (!markerVisible["F"]) this.DF.visible = this.FG.visible = false;
-		if (!markerVisible["G"]) this.FG.visible = this.GA.visible = false;
-	},
+    this.createCylinderAndLine('AB', '#lineAB');
+    this.createCylinderAndLine('BC', '#lineBC');
+    this.createCylinderAndLine('CD', '#lineCD');
+    this.createCylinderAndLine('DA', '#lineDA');
+  },
+
+  createCylinderAndLine: function (cylinderId, lineId) {
+    let material = new THREE.MeshLambertMaterial({ color: 0X03fcad });
+    let geometry = new THREE.CylinderGeometry(0.05, 0.05, 1, 12);
+    geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0));
+    geometry.applyMatrix(new THREE.Matrix4().makeRotationX(THREE.Math.degToRad(90)));
+
+    this['cylinder' + cylinderId] = new THREE.Mesh(geometry, material);
+    this['line' + cylinderId] = document.querySelector(lineId).object3D;
+    this['line' + cylinderId].add(this['cylinder' + cylinderId]);
+    this['cylinder' + cylinderId].visible = false;
+  },
+
+  tick: function () {
+    this.updateCylinder('AB', 'A', 'B');
+    this.updateCylinder('BC', 'B', 'C');
+    this.updateCylinder('CD', 'C', 'D');
+    this.updateCylinder('DA', 'D', 'A');
+  },
+
+  updateCylinder: function (cylinderId, point1Id, point2Id) {
+    if (this[point1Id] && this[point2Id]) {
+      this[point1Id].getWorldPosition(this['p' + point1Id]);
+      this[point2Id].getWorldPosition(this['p' + point2Id]);
+      let distance = this['p' + point1Id].distanceTo(this['p' + point2Id]);
+
+      this['line' + cylinderId].lookAt(this['p' + point2Id]);
+      this['cylinder' + cylinderId].scale.set(1, 1, distance);
+      this['cylinder' + cylinderId].visible = true;
+    } else {
+      this['cylinder' + cylinderId].visible = false;
+    }
+  }
 });

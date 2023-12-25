@@ -2,78 +2,55 @@
 
 <html>
 	<head>
-		<script src="aframe/aframe.min.js"></script>
-		<script src="arjs/aframe-ar.js"></script>
-		<script src="ABSD.js"></script>
+		<script src="../aframe/aframe.min.js"></script>
+		<script src="../arjs/aframe-ar.js"></script>
+		<script src="ABCD.js"></script>
 	</head>
 	<body>
-		<a-scene arjs="debug: false;" embedded>
-			<a-marker
-				registerevents
-				id="A"
-				type="pattern"
-				url="assets/pattern-letterA.patt"
-			>
-				<a-sphere color="blue" radius="0.5"></a-sphere>
-				<a-cylinder
-					id="AB"
-					color="yellow"
-					height="1"
-					radius="0.1"
-					visible="false"
-				></a-cylinder>
-			</a-marker>
-			<a-marker
-				registerevents
-				id="B"
-				type="pattern"
-				url="assets/pattern-letterB.patt"
-			>
-				<a-sphere color="red" radius="0.15"></a-sphere>
-				<a-cylinder
-					id="BC"
-					color="yellow"
-					height="1"
-					radius="0.1"
-					visible="false"
-				></a-cylinder>
-			</a-marker>
-			<a-marker
-				registerevents
-				id="C"
-				type="pattern"
-				url="assets/pattern-letterC.patt"
-			>
-				<a-sphere color="green" radius="0.15"></a-sphere>
-				<a-cylinder
-					id="CD"
-					color="yellow"
-					height="1"
-					radius="0.1"
-					visible="false"
-				></a-cylinder>
-			</a-marker>
-			<a-marker
-				registerevents
-				id="D"
-				type="pattern"
-				url="assets/pattern-letterD.patt"
-			>
-				<a-sphere color="yellow" radius="0.15"></a-sphere>
-				<a-cylinder
-					id="DA"
-					color="yellow"
-					height="1"
-					radius="0.1"
-					visible="false"
-				></a-cylinder>
-			</a-marker>
+		<a-scene embedded vr-mode-ui="enabled: false;" arjs="debugUIEnabled: false; detectionMode: mono_and_matrix;">
 			<a-entity camera></a-entity>
+		  
+			<a-marker type="pattern" url="../assets/pattern-letterA.patt" id="A" registerevents>
+				<a-sphere 
+					radius="0.10" 
+					color="yellow">
+				</a-sphere>
+
+				<a-entity id="lineAB"></a-entity>
+				<a-entity id="lineAD"></a-entity>
+			</a-marker>
+			
+			<a-marker type="pattern" url="../assets/pattern-letterB.patt" id="B" registerevents>
+				<a-sphere 
+					radius="0.10" 
+					color="red">
+				</a-sphere>
+
+				<a-entity id="lineBC"></a-entity>
+				<a-entity id="lineAB"></a-entity>
+			</a-marker>
+		  
+			<a-marker type="pattern" url="../assets/pattern-letterC.patt" id="C" registerevents>
+				<a-sphere 
+					radius="0.10" 
+					color="blue">
+				</a-sphere>
+
+				<a-entity id="lineCD"></a-entity>
+				<a-entity id="lineAC"></a-entity>
+			</a-marker>
+	
+			<a-marker type="pattern" url="../assets/pattern-letterD.patt" id="D" registerevents>
+				<a-sphere 
+					radius="0.10" 
+					color="cyan">
+				</a-sphere>
+
+				<a-entity id="lineDA"></a-entity>
+				<a-entity id="lineDC"></a-entity>
+			</a-marker>
+		  
 			<a-entity run></a-entity>
-			<a-entity
-				text="value: Perimeter: 0; Area: 0"
-				position="-1 2 -3"
-			></a-entity>
 		</a-scene>
 	</body>
 </html>
